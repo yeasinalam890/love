@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will you be my(yeasin's) Valentine?</title>
+    <link href="nneymar-rose_processed.jpg" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff4d6d;
+            --primary-hover: #e0314f;
+            --bg-color: #fff0f3;
+            --text-color: #590d22;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            font-family: 'Nunito', sans-serif;
+            overflow: hidden; /* Prevents scrollbars when button moves */
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.15);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            z-index: 10;
+        }
+
+        .main-image {
+            width: 100%;
+            max-width: 280px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            object-fit: cover;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: var(--text-color);
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: 800;
+        }
+
+        .button-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            min-height: 60px; /* Keeps container height stable as buttons change size */
+        }
+
+        button {
+            border: none;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .btn-yes {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 40px;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            transition: all 0.3s ease; /* Smooth growth animation */
+        }
+
+        .btn-yes:hover {
+            background-color: var(--primary-hover);
+            transform: scale(1.05);
+        }
+
+        .btn-no {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            padding: 15px 40px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 1px solid #dee2e6;
+            /* Transition for smooth gliding away */
+            transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), top 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Success Message Styling */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="mainCard">
+        <img src="nneymar-rose_processed.jpg" alt="neymar-rose_processed.jpg" class="main-image" id="displayImage">
+        
+        <h1 id="questionText">Will you be my(yeasin's) Valentine? 💖</h1>
+
+        <div class="button-container" id="btnContainer">
+            <button class="btn-yes" id="yesBtn">Yes 🥰</button>
+            <button class="btn-no" id="noBtn">No 🙅‍♀️</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const displayImage = document.getElementById('displayImage');
+        const questionText = document.getElementById('questionText');
+        const btnContainer = document.getElementById('btnContainer');
+
+        let yesScale = 1;
+        const messages = ["No 🙅‍♀️", "Are you sure? 🥺", "Really sure?", "Think again! 😭", "Last chance!", "Heart broken 💔"];
+        let messageIndex = 0;
+
+        // Function to move the 'No' button and grow the 'Yes' button
+        function evadeCursor() {
+            // Make button absolute so it leaves the flow of the flex container
+            noBtn.style.position = 'absolute';
+            
+            // Calculate safe boundaries
+            const padding = 20;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            // Generate random coordinates within boundaries
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            // Apply new coordinates
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+
+            // Change 'No' button text to guilt-trip playfully
+            if (messageIndex < messages.length - 1) {
+                messageIndex++;
+                noBtn.innerText = messages[messageIndex];
+            }
+
+            // Grow the 'Yes' button
+            yesScale += 0.3;
+            yesBtn.style.transform = `scale(${yesScale})`;
+        }
+
+        // Handle both mouse hover and mobile taps
+        noBtn.addEventListener('mouseover', evadeCursor);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevents the tap from registering as a click if they manage to hit it
+            evadeCursor();
+        });
+
+        // Handle the 'Yes' click
+        yesBtn.addEventListener('click', () => {
+            // Change the image to a happy GIF when they click yes
+            displayImage.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDFyYnh6Mncyd2U0Mmp2c2g1cWl1bTNvcm12anY5MW13YXk1YzIwaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif";
+            
+            // Update text
+            questionText.innerText = "YAY! I knew you'd say Yes! ❤️🎉";
+            questionText.style.color = "#ff4d6d";
+            
+            // Hide the buttons
+            btnContainer.classList.add('hidden');
+        });
+    </script>
+
+</body>
+</html>
