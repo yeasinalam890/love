@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will you be my(yeasin's) Valentine?</title>
-    <link href="nneymar-rose_processed.jpg" rel="stylesheet">
+    <title>Will you be my Valentine?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #ff4d6d;
@@ -26,7 +26,7 @@
             min-height: 100vh;
             background-color: var(--bg-color);
             font-family: 'Nunito', sans-serif;
-            overflow: hidden; /* Prevents scrollbars when button moves */
+            overflow: hidden;
         }
 
         .card {
@@ -51,7 +51,7 @@
 
         h1 {
             color: var(--text-color);
-            font-size: 28px;
+            font-size: 26px;
             margin-bottom: 30px;
             font-weight: 800;
         }
@@ -62,7 +62,7 @@
             justify-content: center;
             gap: 20px;
             position: relative;
-            min-height: 60px; /* Keeps container height stable as buttons change size */
+            min-height: 60px;
         }
 
         button {
@@ -80,7 +80,7 @@
             color: white;
             padding: 15px 40px;
             box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
-            transition: all 0.3s ease; /* Smooth growth animation */
+            transition: all 0.3s ease;
         }
 
         .btn-yes:hover {
@@ -94,11 +94,9 @@
             padding: 15px 40px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             border: 1px solid #dee2e6;
-            /* Transition for smooth gliding away */
             transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), top 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* Success Message Styling */
         .hidden {
             display: none !important;
         }
@@ -107,7 +105,7 @@
 <body>
 
     <div class="card" id="mainCard">
-        <img src="nneymar-rose_processed.jpg" alt="neymar-rose_processed.jpg" class="main-image" id="displayImage">
+        <img src="neymar.jpg" alt="Valentine Image" class="main-image" id="displayImage">
         
         <h1 id="questionText">Will you be my(yeasin's) Valentine? 💖</h1>
 
@@ -128,52 +126,36 @@
         const messages = ["No 🙅‍♀️", "Are you sure? 🥺", "Really sure?", "Think again! 😭", "Last chance!", "Heart broken 💔"];
         let messageIndex = 0;
 
-        // Function to move the 'No' button and grow the 'Yes' button
         function evadeCursor() {
-            // Make button absolute so it leaves the flow of the flex container
             noBtn.style.position = 'absolute';
-            
-            // Calculate safe boundaries
             const padding = 20;
             const maxX = window.innerWidth - noBtn.offsetWidth - padding;
             const maxY = window.innerHeight - noBtn.offsetHeight - padding;
-
-            // Generate random coordinates within boundaries
             const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
             const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
 
-            // Apply new coordinates
             noBtn.style.left = `${randomX}px`;
             noBtn.style.top = `${randomY}px`;
 
-            // Change 'No' button text to guilt-trip playfully
             if (messageIndex < messages.length - 1) {
                 messageIndex++;
                 noBtn.innerText = messages[messageIndex];
             }
 
-            // Grow the 'Yes' button
             yesScale += 0.3;
             yesBtn.style.transform = `scale(${yesScale})`;
         }
 
-        // Handle both mouse hover and mobile taps
         noBtn.addEventListener('mouseover', evadeCursor);
         noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevents the tap from registering as a click if they manage to hit it
+            e.preventDefault();
             evadeCursor();
         });
 
-        // Handle the 'Yes' click
         yesBtn.addEventListener('click', () => {
-            // Change the image to a happy GIF when they click yes
             displayImage.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDFyYnh6Mncyd2U0Mmp2c2g1cWl1bTNvcm12anY5MW13YXk1YzIwaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif";
-            
-            // Update text
             questionText.innerText = "YAY! I knew you'd say Yes! ❤️🎉";
             questionText.style.color = "#ff4d6d";
-            
-            // Hide the buttons
             btnContainer.classList.add('hidden');
         });
     </script>
